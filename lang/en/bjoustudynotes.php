@@ -9,7 +9,9 @@
 
 $string['pluginname'] = 'BJOU study notes';
 $string['modulename'] = 'BJOU study notes';
+$string['pluginadministration'] = 'BJOU study notes';
 $string['title'] = 'study notes';
+$string['name'] = 'name';
 
 $string['bjoustudynotes:addnotes'] = 'View BJOU studynotes';
 

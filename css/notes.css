@@ -1,0 +1,16 @@
+div.bgnotes {
+	background-image:url(../images/background-notes.png);
+	margin-top: 30px;
+}
+
+textarea#id_content {
+	background-color:transparent;
+}
+
+div#fitem_id_content {
+	background-color:#transparent;
+	padding-top: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+	padding-left: 30px;
+}

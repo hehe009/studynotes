@@ -17,6 +17,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 function bjoustudynotes_add_instance($bjoustudynotes) {
     global $DB;
+
+    $bjoustudynotes->timecreated = time();
     $bjoustudynotes->timemodified = time();
 
     if ($bjoustudynotes->id = $DB->insert_record('bjoustudynotes', $bjoustudynotes)) {
@@ -33,6 +35,7 @@ function bjoustudynotes_add_instance($bjoustudynotes) {
 function bjoustudynotes_update_instance($bjoustudynotes) {
     global $DB;
     $bjoustudynotes->id = $bjoustudynotes->instance;
+    $bjoustudynotes->timemodified = time();
 
     if ($bjoustudynotes = $DB->update_record('bjoustudynotes', $bjoustudynotes)) {
         return $bjoustudynotes;

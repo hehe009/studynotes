@@ -21,7 +21,19 @@ class mod_bjoustudynotes_mod_form extends moodleform_mod {
 
         $mform =& $this->_form;
 
-        $mform->addElement('text', 'name', get_string('title', 'bjoustudynotes'), array('size'=>'64'));
+        // GENERAL
+        $mform->addElement('header', 'general', get_string('general', 'form'));
+
+        $mform->addElement('text', 'name', get_string('name', 'bjoustudynotes'), array('size'=>'64'));
+        if (!empty($CFG->formatstringstriptags)) {
+            $mform->setType('name', PARAM_TEXT);
+        } else {
+            $mform->setType('name', PARAM_CLEAN);
+        }
+        $mform->addRule('name', null, 'required', null, 'client');
+
+
+        $this->standard_coursemodule_elements();
 
         $this->add_action_buttons();
     }
