@@ -21,7 +21,7 @@ class mod_bjoustudynotes_note_edit_form extends moodleform {
 
         $mform->addElement('html', '<div class="bgnotes">');
 
-        $mform->addElement('textarea', 'content', get_string('content', 'notes'), array('rows'=>15, 'cols'=>40));
+        $mform->addElement('textarea', 'content', get_string('content', 'notes'), array('rows'=>18, 'cols'=>52));
         $mform->setType('content', PARAM_RAW);
         $mform->addRule('content', get_string('nocontent', 'notes'), 'required', null, 'client');
 
@@ -40,5 +40,8 @@ class mod_bjoustudynotes_note_edit_form extends moodleform {
 
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
+
+        $mform->addElement('hidden', 'noteid');
+        $mform->setType('noteid', PARAM_INT);
     }
 }
