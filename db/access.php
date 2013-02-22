@@ -9,7 +9,7 @@
 
 $capabilities = array(
 
-    'mod/bjoustudynotes:addnotes' => array(
+    'blocks/bjoustudynotes:addnotes' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -21,7 +21,7 @@ $capabilities = array(
         ),
     ),
 
-    'mod/bjoustudynotes:addinstance' => array(
+    'blocks/bjoustudynotes:addinstance' => array(
         'riskbitmask' => RISK_XSS,
 
         'captype' => 'write',
