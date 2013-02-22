@@ -9,5 +9,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2012102902;
+$module->version   = 2012102903;
 $module->requires  = 2011120501; // See http://docs.moodle.org/dev/Moodle_Versions
