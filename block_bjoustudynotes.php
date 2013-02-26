@@ -7,6 +7,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 class block_bjoustudynotes extends block_base {
     public function init() {
         $this->title = get_string('title', 'block_bjoustudynotes');
@@ -18,8 +20,8 @@ class block_bjoustudynotes extends block_base {
         }
 
         $this->content         =  new stdClass;
-        $this->content->text   = 'The content of our SimpleHTML block!';
-        $this->content->footer = 'Footer here...';
+        $this->content->text   = '<a href="../blocks/bjoustudynotes/edit.php?id='.$this->page->course->id.'">'
+                                .get_string('bjoustudynotes:addnotes', 'bjoustudynotes').'</a>';
 
         return $this->content;
     }

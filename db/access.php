@@ -9,9 +9,9 @@
 
 $capabilities = array(
 
-    'blocks/bjoustudynotes:addnotes' => array(
+    'block/bjoustudynotes:addnotes' => array(
         'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
+        'contextlevel' => CONTEXT_BLOCK,
         'archetypes' => array(
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
@@ -21,15 +21,25 @@ $capabilities = array(
         ),
     ),
 
-    'blocks/bjoustudynotes:addinstance' => array(
+    'block/bjoustudynotes:myaddinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'user' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
+    ),
+
+    'block/bjoustudynotes:addinstance' => array(
         'riskbitmask' => RISK_XSS,
 
         'captype' => 'write',
-        'contextlevel' => CONTEXT_COURSE,
+        'contextlevel' => CONTEXT_BLOCK,
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
+        'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
 );

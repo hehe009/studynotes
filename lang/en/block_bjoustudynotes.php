@@ -17,8 +17,6 @@ $string['name'] = 'name';
 $string['bjoustudynotes:addnotes'] = 'View BJOU studynotes';
 
 $string['error:courseid'] = 'Course ID is incorrect';
-$string['error:cmid'] = 'Course Module ID was incorrect';
-$string['error:cmconfig'] = 'course is misconfigured';
 $string['error:deleteinstance'] = 'Error deleting BJOU studynotes activity';
 
 

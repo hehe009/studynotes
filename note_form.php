@@ -13,7 +13,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->libdir.'/formslib.php');
 
-class mod_bjoustudynotes_note_edit_form extends moodleform {
+class bjoustudynotes_note_edit_form extends moodleform {
 
     function definition() {
         $mform =& $this->_form;
