@@ -17,7 +17,7 @@ class bjoustudynotes_note_edit_form extends moodleform {
 
     function definition() {
         $mform =& $this->_form;
-        $mform->addElement('header', 'general', get_string('title', 'bjoustudynotes'));
+        $mform->addElement('header', 'general', get_string('title', 'block_bjoustudynotes'));
 
         $mform->addElement('html', '<div class="bgnotes">');
 

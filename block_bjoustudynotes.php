@@ -21,7 +21,7 @@ class block_bjoustudynotes extends block_base {
 
         $this->content         =  new stdClass;
         $this->content->text   = '<a href="../blocks/bjoustudynotes/edit.php?id='.$this->page->course->id.'">'
-                                .get_string('bjoustudynotes:addnotes', 'bjoustudynotes').'</a>';
+                                .get_string('bjoustudynotes:addnotes', 'block_bjoustudynotes').'</a>';
 
         return $this->content;
     }

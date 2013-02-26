@@ -15,7 +15,7 @@ $id = required_param('id', PARAM_INT);    // Course ID
 $sitecontext  = get_context_instance(CONTEXT_COURSE, $id);
 
 if (!$course = $DB->get_record('course', array('id'=> $id))) {
-    print_error(get_string('error:courseid', 'bjoustudynotes'));
+    print_error(get_string('error:courseid', 'block_bjoustudynotes'));
 }
 
 require_login($course);
@@ -32,7 +32,7 @@ $PAGE->set_url($url);
 $PAGE->set_pagelayout('course');
 $PAGE->set_context($context);
 
-$PAGE->set_title(get_string('title', 'bjoustudynotes'));
+$PAGE->set_title(get_string('title', 'block_bjoustudynotes'));
 $PAGE->set_heading($course->fullname);
 
 /// create note form
