@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/studynotes/db" VERSION="20130410" COMMENT="XMLDB file for Moodle local/studynotes"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_studynotes" COMMENT="Default comment for local_studynotes, please edit me" NEXT="local_studynotes_category">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="subject"/>
+        <FIELD NAME="subject" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="message"/>
+        <FIELD NAME="message" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="subject" NEXT="owner"/>
+        <FIELD NAME="owner" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="message" NEXT="modified"/>
+        <FIELD NAME="modified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="owner"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="index_owner" UNIQUE="false" FIELDS="owner"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_studynotes_category" COMMENT="Default comment for the table, please edit me" PREVIOUS="local_studynotes" NEXT="local_studynotes_share">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="categoryname"/>
+        <FIELD NAME="categoryname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="createby"/>
+        <FIELD NAME="createby" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="categoryname"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="index_createby" UNIQUE="false" FIELDS="createby"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_studynotes_share" COMMENT="Default comment for the table, please edit me" PREVIOUS="local_studynotes_category" NEXT="local_studynotes_relation">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="notesid"/>
+        <FIELD NAME="notesid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="userid"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="notesid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="key_notesid"/>
+        <KEY NAME="key_notesid" TYPE="foreign" FIELDS="notesid" REFTABLE="local_studynotes" REFFIELDS="id" PREVIOUS="primary"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="index_userid" UNIQUE="false" FIELDS="userid"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_studynotes_relation" COMMENT="Default comment for the table, please edit me" PREVIOUS="local_studynotes_share">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="notesid"/>
+        <FIELD NAME="notesid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="categoryid"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="notesid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="key_notesid"/>
+        <KEY NAME="key_notesid" TYPE="foreign" FIELDS="notesid" REFTABLE="local_studynotes" REFFIELDS="id" PREVIOUS="primary" NEXT="key_categoryid"/>
+        <KEY NAME="key_categoryid" TYPE="foreign" FIELDS="categoryid" REFTABLE="local_studynotes_category" REFFIELDS="id" PREVIOUS="key_notesid"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
