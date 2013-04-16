@@ -12,22 +12,26 @@ require_once($CFG->libdir.'/formslib.php');
 class studynotes_edit_forms extends moodleform {
 
     function definition() {
-        global $OUTPUT, $CFG;
+        global $CFG;
 
         $mform       =& $this->_form;
 
-        $mform->addElement('notes:header', 'local_studynotes');
+        $userid      = $this->_customdata['userid'];
 
-        $mform->addElement('text','notestitle', get_string('notes:title', 'local_studynotes'),'maxlength="100" size="50"');
-        $mform->addRule('notestitle', get_string('notes:title:missing', 'local_studynotes'), 'required', null, 'client');
-        $mform->setType('notestitle', PARAM_TEXT);
+        $mform->addElement('header', 'local_studynotes');
 
-        $mform->addElement('editor','notescontent_editor', get_string('notes:content', 'local_studynotes'), null, editor_options());
-        $mform->setType('notescontent_editor', PARAM_RAW);
+        $mform->addElement('text','subject', get_string('notes:subject', 'local_studynotes'),'maxlength="100" size="50"');
+        $mform->addRule('subject', get_string('notes:subject:missing', 'local_studynotes'), 'required', null, 'client');
+        $mform->setType('subject', PARAM_TEXT);
 
-        $mform->addElement('text','notesshare', get_string('notes:share', 'local_studynotes'),'maxlength="100" size="50"');
-        $mform->addHelpButton('notesshare', 'notes:share');
-        $mform->setType('notesshare', PARAM_TEXT);
+        $mform->addElement('editor','message_editor', get_string('notes:content', 'local_studynotes'), null, self::editor_options());
+        $mform->setType('message_editor', PARAM_RAW);
+
+        $mform->addElement('text','sharewith', get_string('notes:share', 'local_studynotes'),'maxlength="100" size="50"');
+        $mform->addHelpButton('sharewith', 'notes:share');
+        $mform->setType('sharewith', PARAM_TEXT);
+
+        $mform->addElement('hidden', 'owner', $userid);
 
         $this->add_action_buttons(false,get_string('savechanges'));
     }
