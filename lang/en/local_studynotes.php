@@ -19,3 +19,7 @@ $string['notes:share'] = 'Share';
 $string['notes:share_help'] = 'Share your notes with classmates
   input their student IDs
   use comma(,) to separate each ID';
+
+
+$string['local/studynotes_enable'] = 'Enable study notes';
+$string['local/studynotes_category'] = 'Enable study notes category';
