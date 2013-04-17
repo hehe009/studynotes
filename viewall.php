@@ -9,6 +9,8 @@
 
 require_once('../../config.php');
 require_once($CFG->libdir.'/formslib.php');
+global $DB;
+
 require_login();
 
 $url = new moodle_url('/local/studynotes/viewall.php');
@@ -23,5 +25,15 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($PAGE->title);
 
 echo $OUTPUT->single_button(new moodle_url('edit.php'), get_string('button:addnotes', 'local_studynotes'), 'get');
+
+// get all notes created by user
+$allmynotes = $DB->get_records('local_studynotes', array('owner'=>$USER->id));
+
+// get all notes shared with user
+//$allsharenotes = $DB->get_records('local_studynotes_share', array('userid'=>$USER->id));
+
+foreach ($allmynotes as $notes) {
+    echo '<a href="notes.php?id='.$notes->id.'">'.$notes->subject.'</a><br>';
+}
 
 echo $OUTPUT->footer();

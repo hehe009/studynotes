@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/studynotes/db" VERSION="20130410" COMMENT="XMLDB file for Moodle local/studynotes"
+<XMLDB PATH="local/studynotes/db" VERSION="20130417" COMMENT="XMLDB file for Moodle local/studynotes"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -8,8 +8,9 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="subject"/>
         <FIELD NAME="subject" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="message"/>
-        <FIELD NAME="message" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="subject" NEXT="owner"/>
-        <FIELD NAME="owner" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="message" NEXT="modified"/>
+        <FIELD NAME="message" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="subject" NEXT="messageformat"/>
+        <FIELD NAME="messageformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="message" NEXT="owner"/>
+        <FIELD NAME="owner" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="messageformat" NEXT="modified"/>
         <FIELD NAME="modified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="owner"/>
       </FIELDS>
       <KEYS>

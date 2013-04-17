@@ -38,15 +38,20 @@ $editoroptions = array(
 
 //// create the form
 $editform = new studynotes_edit_forms(NULL, array('userid'=>$USER->id, 'editoroptions' => $editoroptions));
-if ($notes = $editform->get_data()) {
+if ($formdata = $editform->get_data()) {
+    //print_object($formdata);die();
+    $notes = new stdClass();
 
-    $today = time();
-    $today = make_timestamp(date('Y', $today), date('m', $today), date('d', $today), 0, 0, 0);
-    $notes->modified = $today;
+    $notes->modified = time();
+    $notes->subject = $formdata->subject;
+    $notes->message = $formdata->message_editor['text'];
+    $notes->messageformat = $formdata->message_editor['format'];
+    $notes->owner = $formdata->owner;
 
     if ($id == 0) {
-        $notesid = $DB->insert_record('studynotes', $notes);
+        $notesid = $DB->insert_record('local_studynotes', $notes);
     }
+
 }
 
 
