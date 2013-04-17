@@ -16,7 +16,14 @@ class studynotes_edit_forms extends moodleform {
 
         $mform       =& $this->_form;
 
-        $userid      = $this->_customdata['userid'];
+        if (is_array($this->_customdata)) {
+            if (array_key_exists('editoroptions', $this->_customdata)) {
+                $editoroptions = $this->_customdata['editoroptions'];
+            }
+            if (array_key_exists('userid', $this->_customdata)) {
+                $userid = $this->_customdata['userid'];
+            }
+        }
 
         $mform->addElement('header', 'local_studynotes');
 
@@ -24,7 +31,7 @@ class studynotes_edit_forms extends moodleform {
         $mform->addRule('subject', get_string('notes:subject:missing', 'local_studynotes'), 'required', null, 'client');
         $mform->setType('subject', PARAM_TEXT);
 
-        $mform->addElement('editor','message_editor', get_string('notes:content', 'local_studynotes'), null, self::editor_options());
+        $mform->addElement('editor','message_editor', get_string('notes:content', 'local_studynotes'), null, $editoroptions);
         $mform->setType('message_editor', PARAM_RAW);
 
         $mform->addElement('text','sharewith', get_string('notes:share', 'local_studynotes'),'maxlength="100" size="50"');
@@ -34,22 +41,5 @@ class studynotes_edit_forms extends moodleform {
         $mform->addElement('hidden', 'owner', $userid);
 
         $this->add_action_buttons(false,get_string('savechanges'));
-    }
-
-    /**
-     * Returns the options array to use in forum text editor
-     *
-     * @return array
-     */
-    private static function editor_options() {
-        global $COURSE, $PAGE, $CFG;
-        // TODO: add max files and max size support
-        $maxbytes = get_user_max_upload_file_size($PAGE->context, $CFG->maxbytes, $COURSE->maxbytes);
-        return array(
-            'maxfiles' => EDITOR_UNLIMITED_FILES,
-            'maxbytes' => $maxbytes,
-            'trusttext'=> true,
-            'return_types'=> FILE_INTERNAL | FILE_EXTERNAL
-        );
     }
 }

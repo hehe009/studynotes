@@ -10,7 +10,7 @@
 $capabilities = array(
     'local/studynotes_enable' => array(
         'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
+        'contextlevel' => CONTEXT_USER,
         'archetypes' => array(
             'user' => CAP_ALLOW
         )
@@ -18,7 +18,7 @@ $capabilities = array(
 
     'local/studynotes_category' => array(
         'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
+        'contextlevel' => CONTEXT_USER,
         'archetypes' => array(
             'user' => CAP_ALLOW
         )
