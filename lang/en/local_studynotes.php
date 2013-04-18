@@ -21,9 +21,11 @@ $string['notes:share'] = 'Share';
 $string['notes:share_help'] = 'Share your notes with classmates
   input their student IDs
   use comma(,) to separate each ID';
-
+$string['notes:owner'] = 'Owner';
+$string['notes:lastmodified'] = 'Last modified';
 $string['notes:list'] = 'List of study notes';
 $string['button:addnotes'] = 'Add a new notes';
+$string['button:delnotes'] = 'Delete selected notes';
 
 $string['error:nopermission'] = 'Sorry, you do not have the right to view this notes';
 $string['error:notexists'] = 'Sorry, the notes you are trying to view does not exist';
