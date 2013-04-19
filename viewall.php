@@ -12,6 +12,8 @@ require_once($CFG->libdir.'/formslib.php');
 global $DB;
 
 require_login();
+$personalcontext = context_user::instance($USER->id, MUST_EXIST);
+require_capability('local/studynotes:enable', $personalcontext);
 
 $url = new moodle_url('/local/studynotes/viewall.php');
 
