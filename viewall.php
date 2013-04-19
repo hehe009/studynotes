@@ -25,7 +25,12 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($PAGE->title);
 
 // get all notes created by user
-$allmynotes = $DB->get_records('local_studynotes', array('owner'=>$USER->id));
+$sql = "SELECT n.id, n.subject, n.message, n.modified, u.firstname, u.lastname
+        FROM {local_studynotes} n, {user} u
+        WHERE n.owner = u.id
+        AND owner = :userid";
+$params['userid'] = $USER->id;
+$allmynotes = $DB->get_records_sql($sql, $params);
 
 // get all notes shared with user
 //$allsharenotes = $DB->get_records('local_studynotes_share', array('userid'=>$USER->id));
@@ -73,12 +78,12 @@ foreach ($allmynotes as $notes) {
 
     $cell = new html_table_cell();
     $cell->style = 'text-align:center';
-    $cell->text = $notes->owner;
+    $cell->text = $notes->lastname.' '.$notes->firstname;
     $row->cells[] = $cell;
 
     $cell = new html_table_cell();
     $cell->style = 'text-align:center';
-    $cell->text = format_time($notes->modified, $datestring);
+    $cell->text = userdate($notes->modified);
     $row->cells[] = $cell;
 
     // add row to table
