@@ -44,6 +44,27 @@ if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
 
 
     if ($valid) {
+        // prepare control table for add and del button
+        $controlstable = new html_table();
+        $controlstable->attributes['class'] = 'controls';
+        $controlstable->cellspacing = 0;
+        $controlstable->width = "100%";
+        $row = new html_table_row();
+
+        $cell = new html_table_cell();
+        $cell->style = 'text-align:right';
+
+        $cell->text = '<div style="text-align:right>'
+                        .$OUTPUT->single_button(new moodle_url('edit.php', array('id'=>$notes->id)), get_string('button:edit', 'local_studynotes'), 'get')
+                        . '</div>';
+        $row->cells[] = $cell;
+
+        // add row to table
+        $controlstable->data[] = $row;
+
+        // display control table
+        echo html_writer::table($controlstable);
+
         echo $OUTPUT->heading($notes->subject, 2);
         echo $notes->message;
     } else {
