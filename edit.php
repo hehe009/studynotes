@@ -50,6 +50,7 @@ if ($formdata = $editform->get_data()) {
 
     if ($id == 0) {
         $notesid = $DB->insert_record('local_studynotes', $notes);
+        redirect(new moodle_url('/local/studynotes/viewall.php'));
     }
 
 }
