@@ -30,5 +30,6 @@ $string['button:delnotes'] = 'Delete selected notes';
 $string['error:nopermission'] = 'Sorry, you do not have the right to view this notes';
 $string['error:notexists'] = 'Sorry, the notes you are trying to view does not exist';
 
-$string['local/studynotes_enable'] = 'Enable study notes';
-$string['local/studynotes_category'] = 'Enable study notes category';
+// capabilities
+$string['studynotes:enable'] = 'Enable study notes';
+$string['studynotes:category'] = 'Enable study notes category';

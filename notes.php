@@ -15,7 +15,7 @@ $id         =  required_param('id', PARAM_INT);       // studynotes id
 require_login();
 
 $personalcontext = context_user::instance($USER->id, MUST_EXIST);
-require_capability('local/studynotes_enable', $personalcontext);
+require_capability('local/studynotes:enable', $personalcontext);
 
 //prepare url
 $PAGE->set_url('/local/studynotes/notes.php', array('id'=>$id));
