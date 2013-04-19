@@ -17,6 +17,7 @@ require_login();
 
 $pageparams = array('id'=>$id);
 $personalcontext = context_user::instance($USER->id);
+require_capability('local/studynotes:enable', $personalcontext);
 
 
 //prepare url
@@ -34,10 +35,26 @@ $editoroptions = array(
     'context'    => $personalcontext
 );
 
-
-
 //// create the form
 $editform = new studynotes_edit_forms(NULL, array('userid'=>$USER->id, 'editoroptions' => $editoroptions));
+
+if ($id > 0) {
+    if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
+        // put notes message back to editor
+        $notes->message_editor = array('text'=>$notes->message,'format'=>$notes->messageformat);
+
+        // set form data
+        $editform->set_data($notes);
+    } else {
+        echo $OUTPUT->header();
+        echo $OUTPUT->heading($PAGE->title);
+        echo $OUTPUT->notification(get_string('error:notexists', 'local_studynotes'));
+        echo $OUTPUT->footer();
+        die();
+    }
+}
+
+
 if ($formdata = $editform->get_data()) {
     //print_object($formdata);die();
     $notes = new stdClass();
@@ -48,8 +65,12 @@ if ($formdata = $editform->get_data()) {
     $notes->messageformat = $formdata->message_editor['format'];
     $notes->owner = $formdata->owner;
 
-    if ($id == 0) {
+    if ($formdata->id == 0) {
         $notesid = $DB->insert_record('local_studynotes', $notes);
+        redirect(new moodle_url('/local/studynotes/viewall.php'));
+    } else {
+        $notes->id = $formdata->id;
+        $notesid = $DB->update_record('local_studynotes', $notes);
         redirect(new moodle_url('/local/studynotes/viewall.php'));
     }
 

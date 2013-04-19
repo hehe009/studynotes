@@ -39,6 +39,7 @@ class studynotes_edit_forms extends moodleform {
         $mform->setType('sharewith', PARAM_TEXT);
 
         $mform->addElement('hidden', 'owner', $userid);
+        $mform->addElement('hidden', 'id', '0');
 
         $this->add_action_buttons(false,get_string('savechanges'));
     }

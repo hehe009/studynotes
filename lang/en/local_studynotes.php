@@ -29,7 +29,7 @@ $string['button:delnotes'] = 'Delete selected notes';
 $string['button:edit'] = 'Edit';
 
 $string['error:nopermission'] = 'Sorry, you do not have the right to view this notes';
-$string['error:notexists'] = 'Sorry, the notes you are trying to view does not exist';
+$string['error:notexists'] = 'Sorry, the notes you are trying to view does not exist or does not shared with you';
 
 // capabilities
 $string['studynotes:enable'] = 'Enable study notes';
