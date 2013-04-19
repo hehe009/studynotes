@@ -50,7 +50,8 @@ if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
         echo $OUTPUT->heading($PAGE->title);
         echo $OUTPUT->notification(get_string('error:nopermission', 'local_studynotes'));
     }
+} else {
+    echo $OUTPUT->heading($PAGE->title);
+    echo $OUTPUT->notification(get_string('error:notexists', 'local_studynotes'));
 }
-echo $OUTPUT->heading($PAGE->title);
-echo $OUTPUT->notification(get_string('error:notexists', 'local_studynotes'));
 echo $OUTPUT->footer();
