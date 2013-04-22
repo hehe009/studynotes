@@ -43,6 +43,16 @@ $editform = new studynotes_edit_forms(NULL, array('userid'=>$USER->id, 'editorop
 
 if ($id > 0) {
     if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
+
+        // check if user is notes' owner
+        if ($notes->owner != $USER->id) {
+             echo $OUTPUT->header();
+            echo $OUTPUT->heading($PAGE->title);
+            echo $OUTPUT->notification(get_string('error:notexists', 'local_studynotes'));
+            echo $OUTPUT->footer();
+            die();
+        }
+
         // put notes message back to editor
         $notes->message_editor = array('text'=>$notes->message,'format'=>$notes->messageformat);
 
