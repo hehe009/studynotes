@@ -40,7 +40,7 @@ if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
     $valid = false;
     if ($notes->owner == $USER->id) {
         $valid = true;
-    } else if ($DB->get_record('local_studynotes_share', array('userid'=>$USER->id))) {
+    } else if ($DB->get_record('local_studynotes_share', array('userid'=>$USER->id, 'notesid'=>$id))) {
         $valid = true;
     }
 
