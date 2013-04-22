@@ -18,24 +18,23 @@ require_capability('local/studynotes:enable', $personalcontext);
 $url = new moodle_url('/local/studynotes/viewall.php');
 
 $PAGE->set_url($url);
-$PAGE->set_pagelayout('course');
 $PAGE->set_context(context_system::instance());
+$PAGE->set_pagelayout('course');
 $PAGE->set_title(get_string('notes:list', 'local_studynotes'));
-$PAGE->set_heading();
+$PAGE->set_heading($PAGE->title);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($PAGE->title);
 
-// get all notes created by user
-$sql = "SELECT n.id, n.subject, n.message, n.modified, u.firstname, u.lastname
-        FROM {local_studynotes} n, {user} u
-        WHERE n.owner = u.id
-        AND owner = :userid";
+// get all notes created by and share with this user
+$sql = "SELECT sn.id, sn.subject, sn.owner, sn.modified, u.lastname, u.firstname
+        FROM {local_studynotes} sn, {local_studynotes_share} sns, {user} u
+        WHERE u.id = sn.owner
+        AND sn.id = sns.notesid
+        AND (sns.userid = :sharewith OR sn.owner = :userid)";
 $params['userid'] = $USER->id;
+$params['sharewith'] = $USER->id;
 $allmynotes = $DB->get_records_sql($sql, $params);
-
-// get all notes shared with user
-//$allsharenotes = $DB->get_records('local_studynotes_share', array('userid'=>$USER->id));
 
 // prepare control table for add and del button
 $controlstable = new html_table();
