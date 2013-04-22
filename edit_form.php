@@ -11,7 +11,7 @@ require_once($CFG->libdir.'/formslib.php');
 
 class studynotes_edit_forms extends moodleform {
 
-    function definition() {
+    public function definition() {
         global $CFG;
 
         $mform       =& $this->_form;
@@ -44,7 +44,7 @@ class studynotes_edit_forms extends moodleform {
         $this->add_action_buttons(false,get_string('savechanges'));
     }
 
-    function validation($data) {
+    function validation($data, $files) {
         global $DB;
 
         $errors = array();

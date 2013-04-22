@@ -18,17 +18,20 @@ $personalcontext = context_user::instance($USER->id, MUST_EXIST);
 require_capability('local/studynotes:enable', $personalcontext);
 
 //prepare url
-$PAGE->set_url('/local/studynotes/notes.php', array('id'=>$id));
+$url = new moodle_url('/local/studynotes/notes.php', array('id'=>$id));
+$PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('course');
-$PAGE->set_title(get_string('notes:header', 'local_studynotes'));
-$PAGE->set_heading($PAGE->title);
-$PAGE->navbar->add($PAGE->title);
+$PAGE->navbar->add(get_string('notes:header', 'local_studynotes'));
 $PAGE->navbar->add(get_string('menu:notes', 'local_studynotes'), new moodle_url('/local/studynotes/viewall.php'));
 
 
-echo $OUTPUT->header();
 
+$PAGE->set_title(get_string('notes:header', 'local_studynotes'));
+$PAGE->set_heading($PAGE->title);
+
+
+echo $OUTPUT->header();
 
 // retrieve notes
 if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
@@ -45,10 +48,10 @@ if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
 
     if ($valid) {
         // prepare control table for add and del button
-        $controlstable = new html_table();
-        $controlstable->attributes['class'] = 'controls';
-        $controlstable->cellspacing = 0;
-        $controlstable->width = "100%";
+        $tablecontrols = new html_table();
+        $tablecontrols->attributes['class'] = 'controls';
+        $tablecontrols->cellspacing = 0;
+        $tablecontrols->width = "100%";
         $row = new html_table_row();
 
         $cell = new html_table_cell();
@@ -60,13 +63,57 @@ if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
         $row->cells[] = $cell;
 
         // add row to table
-        $controlstable->data[] = $row;
+        $tablecontrols->data[] = $row;
 
         // display control table
-        echo html_writer::table($controlstable);
+        echo html_writer::table($tablecontrols);
 
-        echo $OUTPUT->heading($notes->subject, 2);
+        //echo $OUTPUT->heading($notes->subject, 2);
+        echo $OUTPUT->heading($notes->subject);
         echo $notes->message;
+
+        // get sharewith users
+        $sql = 'SELECT u.id, u.username, u.lastname, u.firstname, sns.notesid
+            FROM {local_studynotes_share} sns, {user} u
+            WHERE sns.userid = u.id
+            AND sns.notesid = :notesid
+            ORDER by u.username';
+        $params['notesid'] = $id;
+        if ($sharewith = $DB->get_records_sql($sql, $params)) {
+            $tablesharewith = new html_table();
+            $tablesharewith->cellspacing = 0;
+            $tablesharewith->width = "40%";
+
+            $row = new html_table_row();
+
+            $cell = new html_table_cell();
+            $cell->style = 'text-align:center';
+            $cell->header = true;
+            $cell->text = get_string('notes:sharewith', 'local_studynotes');
+            $row->cells[] = $cell;
+
+            // add header row to the table
+            $tablesharewith->data[] = $row;
+
+            $row = new html_table_row();
+            $cell = new html_table_cell();
+            $cell->style = 'text-align:center';
+            $cell->text = '';
+
+            // list share with users
+            foreach($sharewith as $user) {
+                $cell->text .= $user->lastname . ' ' . $user->firstname . '<br>';
+            }
+            $row->cells[] = $cell;
+
+            // add user list row to the table
+            $tablesharewith->data[] = $row;
+
+            // display the table
+            echo html_writer::table($tablesharewith);
+
+        } // end if this notes is shared with others
+
     } else {
         echo $OUTPUT->heading($PAGE->title);
         echo $OUTPUT->notification(get_string('error:nopermission', 'local_studynotes'));

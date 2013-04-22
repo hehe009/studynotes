@@ -21,6 +21,7 @@ $string['notes:share'] = 'Share';
 $string['notes:share_help'] = 'Share your notes with classmates
   input their student IDs
   use comma(,) to separate each ID';
+$string['notes:sharewith'] = 'Share with';
 $string['notes:owner'] = 'Owner';
 $string['notes:lastmodified'] = 'Last modified';
 $string['notes:list'] = 'List of study notes';
