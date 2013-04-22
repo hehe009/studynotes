@@ -24,12 +24,18 @@ $string['notes:share_help'] = 'Share your notes with classmates
 $string['notes:owner'] = 'Owner';
 $string['notes:lastmodified'] = 'Last modified';
 $string['notes:list'] = 'List of study notes';
+
 $string['button:addnotes'] = 'Add a new notes';
 $string['button:delnotes'] = 'Delete selected notes';
 $string['button:edit'] = 'Edit';
 
+$string['log:sharewith'] = 'share notes {$a}->notesid with user id {$a}->userid';
+
+
 $string['error:nopermission'] = 'Sorry, you do not have the right to view this notes';
 $string['error:notexists'] = 'Sorry, the notes you are trying to view does not exist or does not shared with you';
+$string['error:inputcharacter'] = 'Invalid character input';
+$string['error:invalidusername'] = 'Invalid username';
 
 // capabilities
 $string['studynotes:enable'] = 'Enable study notes';

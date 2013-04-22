@@ -43,4 +43,24 @@ class studynotes_edit_forms extends moodleform {
 
         $this->add_action_buttons(false,get_string('savechanges'));
     }
+
+    function validation($data) {
+        global $DB;
+
+        $errors = array();
+
+        if (preg_match('/[\'^£$%&*()}{@#~?><>.;|=_+¬-]/', $data['sharewith'])) {
+            $errors['sharewith'] = get_string('error:inputcharacter', 'local_studynotes');
+        } else if (!empty($data['sharewith'])) {
+            $arrayuserstobevalid = explode(',', $data['sharewith']);
+            foreach ($arrayuserstobevalid as $usertobevalid) {
+                global $DB;
+                if (!$result = $DB->get_record('user',array('username'=>trim($usertobevalid)))) {
+                    $errors['sharewith'] = get_string('error:invalidusername', 'local_studynotes');
+                }
+            }
+        } // end else
+
+        return $errors;
+    }
 }

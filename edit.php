@@ -25,6 +25,9 @@ $url = new moodle_url('/local/studynotes/edit.php',$pageparams);
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('course');
 $PAGE->set_context(context_system::instance());
+$PAGE->set_title(get_string('notes:header', 'local_studynotes'));
+$PAGE->navbar->add($PAGE->title);
+$PAGE->navbar->add(get_string('menu:notes', 'local_studynotes'), new moodle_url('/local/studynotes/viewall.php'));
 
 // prepare editor options
 $editoroptions = array(
@@ -42,6 +45,23 @@ if ($id > 0) {
     if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
         // put notes message back to editor
         $notes->message_editor = array('text'=>$notes->message,'format'=>$notes->messageformat);
+
+        // get sharewith users
+        $sql = 'SELECT u.id, u.username, sns.notesid
+                FROM {local_studynotes_share} sns, {user} u
+                WHERE sns.userid = u.id
+                AND sns.notesid = :notesid
+                ORDER by u.username';
+        $params['notesid'] = $id;
+        if ($sharewith = $DB->get_records_sql($sql, $params)) {
+            $arrayusers = array();
+            foreach ($sharewith as $users) {
+                $arrayusers[] = $users->username;
+            } // end foreach
+
+            $notes->sharewith = implode(",", $arrayusers);
+            unset($arrayusers);
+        }
 
         // set form data
         $editform->set_data($notes);
@@ -65,12 +85,55 @@ if ($formdata = $editform->get_data()) {
     $notes->messageformat = $formdata->message_editor['format'];
     $notes->owner = $formdata->owner;
 
-    if ($formdata->id == 0) {
+    if ($formdata->id == 0) { // new notes
         $notesid = $DB->insert_record('local_studynotes', $notes);
+
+        // handle share notes with users
+        if($formdata->sharewith != '') {
+
+            // add share with users, delimiter is ','
+            $formdata->sharewith = preg_replace( '/\s+/', '', $formdata->sharewith);
+            $arraysharewith = explode(',', $formdata->sharewith);
+            foreach($arraysharewith as $user) {
+                $sql = 'SELECT id as userid FROM {user} WHERE username = :username';
+                $params['username'] = $user;
+                $sharewithuser = $DB->get_record_sql($sql, $params);
+                $sharewithuser->notesid = $notes->id;
+                $result = $DB->insert_record('local_studynotes_share', $sharewithuser);
+
+                // log user action for leader info
+                add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/edit.php', get_string('log:sharewith', 'local_studynotes', $sharewithuser), '', $USER->id);
+            } // end foreach
+        }
+
         redirect(new moodle_url('/local/studynotes/viewall.php'));
-    } else {
+    } else { // edit notes
         $notes->id = $formdata->id;
         $notesid = $DB->update_record('local_studynotes', $notes);
+
+        // handle share notes with users
+        if($formdata->sharewith != '') {
+
+            // delete previous share records
+            if ($sharewithusers = $DB->get_records('local_studynotes_share', array('notesid'=>$notes->id))) {
+                $DB->delete_records('local_studynotes_share', array('notesid'=>$notes->id));
+            }
+
+            // add share with users, delimiter is ','
+            $formdata->sharewith = preg_replace( '/\s+/', '', $formdata->sharewith);
+            $arraysharewith = explode(',', $formdata->sharewith);
+            foreach($arraysharewith as $user) {
+                $sql = 'SELECT id as userid FROM {user} WHERE username = :username';
+                $params['username'] = $user;
+                $sharewithuser = $DB->get_record_sql($sql, $params);
+                $sharewithuser->notesid = $notes->id;
+                $result = $DB->insert_record('local_studynotes_share', $sharewithuser);
+
+                // log user action for leader info
+                add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/edit.php', get_string('log:sharewith', 'local_studynotes', $sharewithuser), '', $USER->id);
+            } // end foreach
+        }
+
         redirect(new moodle_url('/local/studynotes/viewall.php'));
     }
 
