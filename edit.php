@@ -111,10 +111,13 @@ if ($formdata = $editform->get_data()) {
                 $sharewithuser->notesid = $notesid;
                 $result = $DB->insert_record('local_studynotes_share', $sharewithuser);
 
-                // log user action for leader info
+                // log user action
                 add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/edit.php', get_string('log:sharewith', 'local_studynotes', $sharewithuser), '', $USER->id);
             } // end foreach
         }
+
+        // log user action
+        add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/edit.php', get_string('log:addnotes', 'local_studynotes', $id), '', $USER->id);
 
         redirect(new moodle_url('/local/studynotes/viewall.php'));
     } else { // edit notes
@@ -143,6 +146,9 @@ if ($formdata = $editform->get_data()) {
                 add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/edit.php', get_string('log:sharewith', 'local_studynotes', $sharewithuser), '', $USER->id);
             } // end foreach
         }
+
+        // log user action
+        add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/edit.php', get_string('log:editnotes', 'local_studynotes', $id), '', $USER->id);
 
         redirect(new moodle_url('/local/studynotes/viewall.php'));
     }

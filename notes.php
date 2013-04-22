@@ -118,6 +118,9 @@ if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
             // display the table
             echo html_writer::table($tablesharewith);
 
+            // log user action
+            add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/notes.php', get_string('log:viewnotes', 'local_studynotes', $id), '', $USER->id);
+
         } // end if this notes is shared with others
 
     } else {

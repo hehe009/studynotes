@@ -30,8 +30,10 @@ $string['button:addnotes'] = 'Add a new notes';
 $string['button:delnotes'] = 'Delete selected notes';
 $string['button:edit'] = 'Edit';
 
-$string['log:sharewith'] = 'share notes {$a}->notesid with user id {$a}->userid';
-
+$string['log:sharewith'] = 'share notes id: {$a->notesid} with user id: {$a->userid}';
+$string['log:viewnotes'] = 'view notes id: {$a}';
+$string['log:addnotes'] = 'add notes id: {$a}';
+$string['log:editnotes'] = 'edit notes id: {$a}';
 
 $string['error:nopermission'] = 'Sorry, you do not have the right to view this notes';
 $string['error:notexists'] = 'Sorry, the notes you are trying to view does not exist or does not shared with you';
