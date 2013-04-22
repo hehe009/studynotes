@@ -98,7 +98,7 @@ if ($formdata = $editform->get_data()) {
                 $sql = 'SELECT id as userid FROM {user} WHERE username = :username';
                 $params['username'] = $user;
                 $sharewithuser = $DB->get_record_sql($sql, $params);
-                $sharewithuser->notesid = $notes->id;
+                $sharewithuser->notesid = $notesid;
                 $result = $DB->insert_record('local_studynotes_share', $sharewithuser);
 
                 // log user action for leader info
