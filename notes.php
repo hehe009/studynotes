@@ -37,36 +37,42 @@ echo $OUTPUT->header();
 if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {
 
     // verify user has the right to view the notes
-    $valid = false;
+    $isvalid = false;
+    $isowner = false;
     if ($notes->owner == $USER->id) {
-        $valid = true;
+        $isvalid = true;
+        $isowner = true;
     } else if ($DB->get_record('local_studynotes_share', array('userid'=>$USER->id, 'notesid'=>$id))) {
-        $valid = true;
+        $isvalid = true;
     }
 
 
 
-    if ($valid) {
-        // prepare control table for add and del button
-        $tablecontrols = new html_table();
-        $tablecontrols->attributes['class'] = 'controls';
-        $tablecontrols->cellspacing = 0;
-        $tablecontrols->width = "100%";
-        $row = new html_table_row();
+    if ($isvalid) {
 
-        $cell = new html_table_cell();
-        $cell->style = 'text-align:right';
+        // display 'edit' button if the notes is created by this user
+        if ($isowner) {
+            // prepare control table for add and del button
+            $tablecontrols = new html_table();
+            $tablecontrols->attributes['class'] = 'controls';
+            $tablecontrols->cellspacing = 0;
+            $tablecontrols->width = "100%";
+            $row = new html_table_row();
 
-        $cell->text = '<div style="text-align:right>'
-                        .$OUTPUT->single_button(new moodle_url('edit.php', array('id'=>$notes->id)), get_string('button:edit', 'local_studynotes'), 'get')
-                        . '</div>';
-        $row->cells[] = $cell;
+            $cell = new html_table_cell();
+            $cell->style = 'text-align:right';
 
-        // add row to table
-        $tablecontrols->data[] = $row;
+            $cell->text = '<div style="text-align:right>'
+                            .$OUTPUT->single_button(new moodle_url('edit.php', array('id'=>$notes->id)), get_string('button:edit', 'local_studynotes'), 'get')
+                            . '</div>';
+            $row->cells[] = $cell;
 
-        // display control table
-        echo html_writer::table($tablecontrols);
+            // add row to table
+            $tablecontrols->data[] = $row;
+
+            // display control table
+            echo html_writer::table($tablecontrols);
+        }
 
         //echo $OUTPUT->heading($notes->subject, 2);
         echo $OUTPUT->heading($notes->subject);
