@@ -22,3 +22,9 @@ if (isset($postdata->buttondelete)) {
     require_once('delete.php');
     die();
 }
+
+if (isset($postdata->buttoneditcategory)) {
+    $PAGE->set_url('/local/studynotes/action_redir.php', array('formaction'=>'editcategory.php'));
+    require_once('editcategory.php');
+    die();
+}
