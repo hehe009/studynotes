@@ -39,7 +39,7 @@ $editoroptions = array(
 );
 
 //// create the form
-$editform = new studynotes_edit_forms(NULL, array('userid'=>$USER->id, 'editoroptions' => $editoroptions));
+$editform = new studynotes_edit_forms('edit.php', array('userid'=>$USER->id, 'editoroptions' => $editoroptions));
 
 if ($id > 0) {
     if ($notes = $DB->get_record('local_studynotes', array('id'=>$id))) {

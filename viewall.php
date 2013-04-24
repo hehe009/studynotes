@@ -36,13 +36,16 @@ $params['userid'] = $USER->id;
 $params['sharewith'] = $USER->id;
 $allmynotes = $DB->get_records_sql($sql, $params);
 
+// For delete
+echo '<form action="action_redir.php" method="post" id="studynotesform">';
+
 // prepare control table for add and del button
 $controlstable = new html_table();
 $controlstable->attributes['class'] = 'controls';
 $controlstable->cellspacing = 0;
 $controlstable->data[] = new html_table_row();
-$controlstable->data[0]->cells[] = $OUTPUT->single_button(new moodle_url('edit.php'), get_string('button:addnotes', 'local_studynotes'), 'get');
-$controlstable->data[0]->cells[] = $OUTPUT->single_button(new moodle_url('del.php'), get_string('button:delnotes', 'local_studynotes'), 'get');
+$controlstable->data[0]->cells[] = '<input type="submit" name="buttonedit" value="'.get_string('button:addnotes', 'local_studynotes').'">';
+$controlstable->data[0]->cells[] = '<input type="submit" name="buttondelete" value="'.get_string('button:delnotes', 'local_studynotes').'">';
 
 // display control table
 echo html_writer::table($controlstable);
@@ -91,4 +94,25 @@ foreach ($allmynotes as $notes) {
     $table->data[] = $row;
 }
 echo html_writer::table($table);
+
+echo '<input type="button" id="checkall" value="'.get_string('selectall').'" /> ';
+echo '<input type="button" id="checknone" value="'.get_string('deselectall').'" /> ';
+
+
+
+// for delete
+echo '<noscript style="display:inline">';
+echo '<div><input type="submit" value="'.get_string('ok').'" /></div>';
+echo '</noscript>';
+echo '</form>';
+
+$module = array('name'=>'core_user', 'fullpath'=>'/user/module.js');
+$PAGE->requires->js_init_call('M.core_user.init_participation', null, false, $module);
+
+// JS for category selection box
+echo '<script>';
+echo 'document.getElementById("formactionid").onchange = (function(){ document.getElementById("studynotesform").submit();});';
+echo '</script>';
+
 echo $OUTPUT->footer();
+

@@ -25,6 +25,9 @@ $string['notes:sharewith'] = 'Share with';
 $string['notes:owner'] = 'Owner';
 $string['notes:lastmodified'] = 'Last modified';
 $string['notes:list'] = 'List of study notes';
+$string['notes:delete'] = 'Delete study notes';
+$string['notes:category:moveto'] = 'Move selected notes to category: ';
+
 
 $string['button:addnotes'] = 'Add a new notes';
 $string['button:delnotes'] = 'Delete selected notes';
