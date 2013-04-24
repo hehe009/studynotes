@@ -27,11 +27,12 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($PAGE->title);
 
 // get all notes created by and share with this user
-$sql = "SELECT sn.id, sn.subject, sn.owner, sn.modified, u.lastname, u.firstname
-        FROM {local_studynotes} sn, {local_studynotes_share} sns, {user} u
-        WHERE u.id = sn.owner
-        AND sn.id = sns.notesid
-        AND (sns.userid = :sharewith OR sn.owner = :userid)";
+//$sql = "SELECT sn.id, sn.subject, sn.owner, sn.modified, u.lastname, u.firstname
+//        FROM {local_studynotes} sn, {local_studynotes_share} sns, {user} u
+//        WHERE u.id = sn.owner
+//        AND sn.id = sns.notesid
+//        AND (sns.userid = :sharewith OR sn.owner = :userid)";
+$sql = "SELECT * FROM {local_studynotes} WHERE owner = :userid";
 $params['userid'] = $USER->id;
 $params['sharewith'] = $USER->id;
 $allmynotes = $DB->get_records_sql($sql, $params);

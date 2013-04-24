@@ -26,6 +26,8 @@ $string['notes:owner'] = 'Owner';
 $string['notes:lastmodified'] = 'Last modified';
 $string['notes:list'] = 'List of study notes';
 $string['notes:delete'] = 'Delete study notes';
+$string['notes:delete:confirm'] = 'Are you sure to delete these notes?';
+$string['notes:delete:nonotes'] = 'Please select a notes to delete';
 $string['notes:category:moveto'] = 'Move selected notes to category: ';
 
 
@@ -37,6 +39,7 @@ $string['log:sharewith'] = 'share notes id: {$a->notesid} with user id: {$a->use
 $string['log:viewnotes'] = 'view notes id: {$a}';
 $string['log:addnotes'] = 'add notes id: {$a}';
 $string['log:editnotes'] = 'edit notes id: {$a}';
+$string['log:deletenotes'] = 'delete notes id: {$a}';
 
 $string['error:nopermission'] = 'Sorry, you do not have the right to view this notes';
 $string['error:notexists'] = 'Sorry, the notes you are trying to view does not exist or does not shared with you';
