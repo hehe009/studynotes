@@ -36,7 +36,10 @@ $string['category:title:add'] = 'Add a new category';
 $string['category:name'] = 'Name';
 $string['category:name:missing'] = 'Category name is missing';
 $string['category:nocategory'] = 'You have no category yet';
-
+$string['category:delete'] = 'Delete study notes categories';
+$string['category:delete:categoryname'] = 'Study notes category:';
+$string['category:delete:confirm'] = 'Are you sure to delete these study notes categories?';
+$string['category:delete:nonotes'] = 'Please select a categories to delete';
 
 $string['button:addnotes'] = 'Add a new notes';
 $string['button:delnotes'] = 'Delete selected notes';

@@ -35,6 +35,7 @@ $controlstable->attributes['class'] = 'controls';
 $controlstable->cellspacing = 0;
 $controlstable->data[] = new html_table_row();
 $controlstable->data[0]->cells[] = '<input type="submit" name="buttoneditcategory" value="'.get_string('button:addcategory', 'local_studynotes').'">';
+$controlstable->data[0]->cells[] = '<input type="submit" name="buttondeletecategory" value="'.get_string('button:delcategory', 'local_studynotes').'">';
 $controlstable->data[0]->cells[] = '<input type="submit" name="buttonmanage" value="'.get_string('button:managecategory', 'local_studynotes').'">';
 
 // display control table
@@ -59,7 +60,7 @@ if ($categories = $DB->get_records('local_studynotes_category', array('createby'
 
     $cell = new html_table_cell();
     $cell->style = 'text-align:center';
-    $cell->text = '<input type="checkbox" class="usercheckbox" name="cat'.$cat->id.'" /> ';
+    $cell->text = '<input type="checkbox" class="usercheckbox" name="notescategory'.$cat->id.'" /> ';
     $row->cells[] = $cell;
 
     $cell = new html_table_cell();
