@@ -56,6 +56,8 @@ $string['log:deletenotes'] = 'delete notes id: {$a}';
 $string['log:addcategory'] = 'add category id: {$a}';
 $string['log:editcategory'] = 'edit category id: {$a}';
 $string['log:delcategory'] = 'delete category id: {$a}';
+$string['log:newrelation'] = 'Assign notes and category relation. Notes id: {$a->notesid}, category id: {$a->categoryid}';
+$string['log:updaterelation'] = 'Update notes and category relation. Notes id: {$a->notesid}, from category id: {$a->fromid} to id: {$a->toid}';
 
 
 $string['error:nopermission'] = 'Sorry, you do not have the right to view this notes';

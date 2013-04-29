@@ -99,7 +99,17 @@ echo html_writer::table($table);
 echo '<input type="button" id="checkall" value="'.get_string('selectall').'" /> ';
 echo '<input type="button" id="checknone" value="'.get_string('deselectall').'" /> ';
 
+if ($categories = $DB->get_records('local_studynotes_category', array('createby'=>$USER->id))) {
+    $displaylist = array();
 
+    foreach ($categories as $category) {
+        $displaylist[$category->id] = $category->categoryname;
+    }
+
+    // display category list
+    echo html_writer::tag('label', get_string('notes:category:moveto', 'local_studynotes'), array('for'=>'formactionid'));
+    echo html_writer::select($displaylist, 'categoryid', '', array(''=>'choosedots'), array('id'=>'formactionid'));
+}
 
 // for delete
 echo '<noscript style="display:inline">';
@@ -114,6 +124,7 @@ $PAGE->requires->js_init_call('M.core_user.init_participation', null, false, $mo
 echo '<script>';
 echo 'document.getElementById("formactionid").onchange = (function(){ document.getElementById("studynotesform").submit();});';
 echo '</script>';
+
 
 echo $OUTPUT->footer();
 

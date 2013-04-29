@@ -11,26 +11,25 @@ require_once('../../config.php');
 
 $postdata = data_submitted();
 
+
 if (isset($postdata->buttonedit)) {
     $PAGE->set_url('/local/studynotes/action_redir.php', array('formaction'=>'edit.php'));
     require_once('edit.php');
     die();
-}
-
-if (isset($postdata->buttondelete)) {
+} else if (isset($postdata->buttondelete)) {
     $PAGE->set_url('/local/studynotes/action_redir.php', array('formaction'=>'delete.php'));
     require_once('delete.php');
     die();
-}
-
-if (isset($postdata->buttoneditcategory)) {
+} else if (isset($postdata->buttoneditcategory)) {
     $PAGE->set_url('/local/studynotes/action_redir.php', array('formaction'=>'editcategory.php'));
     require_once('editcategory.php');
     die();
-}
-
-if (isset($postdata->buttondeletecategory)) {
+} else if (isset($postdata->buttondeletecategory)) {
     $PAGE->set_url('/local/studynotes/action_redir.php', array('formaction'=>'deletecategory.php'));
     require_once('deletecategory.php');
+    die();
+} else {
+    $PAGE->set_url('/local/studynotes/action_redir.php', array('formaction'=>'linkup.php'));
+    require_once('linkup.php');
     die();
 }
