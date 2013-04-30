@@ -25,6 +25,7 @@ $string['notes:sharewith'] = 'Share with';
 $string['notes:owner'] = 'Owner';
 $string['notes:lastmodified'] = 'Last modified';
 $string['notes:list'] = 'List of study notes';
+$string['notes:nolist'] = 'You do not have any study notes, click "Add a new notes" to create your notes';
 $string['notes:delete'] = 'Delete study notes';
 $string['notes:delete:confirm'] = 'Are you sure to delete these notes?';
 $string['notes:delete:nonotes'] = 'Please select a notes to delete';

@@ -55,59 +55,64 @@ $controlstable->attributes['class'] = 'controls';
 $controlstable->cellspacing = 0;
 $controlstable->data[] = new html_table_row();
 $controlstable->data[0]->cells[] = '<input type="submit" name="buttonedit" value="'.get_string('button:addnotes', 'local_studynotes').'">';
-$controlstable->data[0]->cells[] = '<input type="submit" name="buttondelete" value="'.get_string('button:delnotes', 'local_studynotes').'">';
+if ($allmynotes) {
+    $controlstable->data[0]->cells[] = '<input type="submit" name="buttondelete" value="'.get_string('button:delnotes', 'local_studynotes').'">';
+}
 
 // display control table
 echo html_writer::table($controlstable);
 
-// prepare notes table
-// define header
-$table = new html_table();
-$table->attributes['class'] = 'generaltable boxaligncenter';
-$table->cellspacing = 0;
-$table->head = array ();
-$table->align = array();
-$table->head[] = get_string('select');
-$table->align[] = 'center';
-$table->head[] = get_string('notes:subject', 'local_studynotes');
-$table->align[] = 'left';
-$table->head[] = get_string('notes:owner', 'local_studynotes');
-$table->align[] = 'center';
-$table->head[] = get_string('notes:lastmodified', 'local_studynotes');
-$table->align[] = 'center';
+if ($allmynotes) {
+    // prepare notes table
+    // define header
+    $table = new html_table();
+    $table->attributes['class'] = 'generaltable boxaligncenter';
+    $table->cellspacing = 0;
+    $table->head = array ();
+    $table->align = array();
+    $table->head[] = get_string('select');
+    $table->align[] = 'center';
+    $table->head[] = get_string('notes:subject', 'local_studynotes');
+    $table->align[] = 'left';
+    $table->head[] = get_string('notes:owner', 'local_studynotes');
+    $table->align[] = 'center';
+    $table->head[] = get_string('notes:lastmodified', 'local_studynotes');
+    $table->align[] = 'center';
 
-// table content
-foreach ($allmynotes as $notes) {
-    $row = new html_table_row();
+    // table content
+    foreach ($allmynotes as $notes) {
+        $row = new html_table_row();
 
-    $cell = new html_table_cell();
-    $cell->style = 'text-align:center;width:10%';
-    $cell->text = '<input type="checkbox" class="usercheckbox" name="notes'.$notes->id.'" /> ';
-    $row->cells[] = $cell;
+        $cell = new html_table_cell();
+        $cell->style = 'text-align:center;width:10%';
+        $cell->text = '<input type="checkbox" class="usercheckbox" name="notes'.$notes->id.'" /> ';
+        $row->cells[] = $cell;
 
-    $cell = new html_table_cell();
-    $cell->style = 'text-align:left';
-    $cell->text = '<a href="notes.php?id='.$notes->id.'">'.$notes->subject.'</a><br>';
-    $row->cells[] = $cell;
+        $cell = new html_table_cell();
+        $cell->style = 'text-align:left';
+        $cell->text = '<a href="notes.php?id='.$notes->id.'">'.$notes->subject.'</a><br>';
+        $row->cells[] = $cell;
 
-    $cell = new html_table_cell();
-    $cell->style = 'text-align:center';
-    $cell->text = $notes->lastname.' '.$notes->firstname;
-    $row->cells[] = $cell;
+        $cell = new html_table_cell();
+        $cell->style = 'text-align:center';
+        $cell->text = $notes->lastname.' '.$notes->firstname;
+        $row->cells[] = $cell;
 
-    $cell = new html_table_cell();
-    $cell->style = 'text-align:center';
-    $cell->text = userdate($notes->modified, get_string('strftimedatetimeshort', 'langconfig'));
-    $row->cells[] = $cell;
+        $cell = new html_table_cell();
+        $cell->style = 'text-align:center';
+        $cell->text = userdate($notes->modified, get_string('strftimedatetimeshort', 'langconfig'));
+        $row->cells[] = $cell;
 
-    // add row to table
-    $table->data[] = $row;
+        // add row to table
+        $table->data[] = $row;
+    }
+    echo html_writer::table($table);
+
+    echo '<input type="button" id="checkall" value="'.get_string('selectall').'" /> ';
+    echo '<input type="button" id="checknone" value="'.get_string('deselectall').'" /> ';
+} else {
+    echo get_string('notes:nolist', 'local_studynotes');
 }
-echo html_writer::table($table);
-
-echo '<input type="button" id="checkall" value="'.get_string('selectall').'" /> ';
-echo '<input type="button" id="checknone" value="'.get_string('deselectall').'" /> ';
-
 if ($categories = $DB->get_records('local_studynotes_category', array('createby'=>$USER->id))) {
     $displaylist = array();
 
