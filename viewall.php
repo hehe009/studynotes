@@ -27,12 +27,21 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($PAGE->title);
 
 // get all notes created by and share with this user
-//$sql = "SELECT sn.id, sn.subject, sn.owner, sn.modified, u.lastname, u.firstname
-//        FROM {local_studynotes} sn, {local_studynotes_share} sns, {user} u
-//        WHERE u.id = sn.owner
-//        AND sn.id = sns.notesid
-//        AND (sns.userid = :sharewith OR sn.owner = :userid)";
-$sql = "SELECT * FROM {local_studynotes} WHERE owner = :userid";
+$sql = "SELECT notes.id, notes.subject, notes.owner, notes.userid, notes.firstname, notes.lastname, notes.modified,
+        relation.categoryname
+        FROM
+        (SELECT sn.id as id, sn.subject, sn.owner, sns.userid, u.firstname, u.lastname, sn.modified
+            FROM mdl_local_studynotes sn
+            left join mdl_local_studynotes_share sns on sns.notesid = sn.id
+            left join mdl_user u on sn.owner = u.id
+            WHERE sn.owner = :userid or sns.userid = :sharewith) notes
+       LEFT OUTER join
+       (SELECT snc.categoryname, snc.createby, snr.notesid
+           FROM mdl_local_studynotes_category snc, mdl_local_studynotes_relation snr
+           where snr.categoryid = snc.id) relation
+       ON notes.id = relation.notesid
+       ORDER by relation.categoryname";
+
 $params['userid'] = $USER->id;
 $params['sharewith'] = $USER->id;
 $allmynotes = $DB->get_records_sql($sql, $params);
@@ -88,7 +97,7 @@ foreach ($allmynotes as $notes) {
 
     $cell = new html_table_cell();
     $cell->style = 'text-align:center';
-    $cell->text = userdate($notes->modified);
+    $cell->text = userdate($notes->modified, get_string('strftimedatetimeshort', 'langconfig'));
     $row->cells[] = $cell;
 
     // add row to table
