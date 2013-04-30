@@ -36,13 +36,32 @@ if ($confirm == 'yes') {
         $arraydelete = unserialize($arraydelete);
         foreach($arraydelete as $notesid) {
             // delete notes which is created by this user
-            if ($result = $DB->delete_records('local_studynotes', array('id'=>$notesid, 'owner'=>$USER->id))) {
+            if ($result = $DB->get_record('local_studynotes', array('id'=>$notesid, 'owner'=>$USER->id))) {
+                $result = $DB->delete_records('local_studynotes', array('id'=>$notesid, 'owner'=>$USER->id));
                 // delete related share records
                 $result = $DB->delete_records('local_studynotes_share', array('notesid'=>$notesid));
+
+                // delete category relation for all user
+                // delete category relation
+                $result = $DB->delete_records('local_studynotes_relation', array('notesid'=>$notesid));
             } else {
                 // delete note share to this user
                 $result = $DB->delete_records('local_studynotes_share', array('userid'=>$USER->id));
-            }
+
+                // delete category relation for this user, if any
+                $sql = "SELECT snr.notesid, snc.createby, snr.id as relationid, snc.id as fromid
+                        FROM {local_studynotes_category} snc, {local_studynotes_relation} snr
+                        WHERE snc.id = snr.categoryid
+                        AND snc.createby = :userid
+                        AND snr.notesid = :notesid";
+                $params['userid'] = $USER->id;
+                $params['notesid'] = $notesid;
+                if ($result = $DB->get_record_sql($sql, $params)) {
+                    $result = $DB->delete_records('local_studynotes_relation', array('id'=>$result->relationid));
+                }
+            } // end if delete share notes
+
+
 
             // log user action
             add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/delete.php', get_string('log:deletenotes', 'local_studynotes', $notesid), '', $USER->id);
