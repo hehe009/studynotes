@@ -63,7 +63,7 @@ echo html_writer::table($controlstable);
 // prepare notes table
 // define header
 $table = new html_table();
-$table->width = "95%";
+$table->attributes['class'] = 'generaltable boxaligncenter';
 $table->cellspacing = 0;
 $table->head = array ();
 $table->align = array();
@@ -81,7 +81,7 @@ foreach ($allmynotes as $notes) {
     $row = new html_table_row();
 
     $cell = new html_table_cell();
-    $cell->style = 'text-align:center;width:80px';
+    $cell->style = 'text-align:center;width:10%';
     $cell->text = '<input type="checkbox" class="usercheckbox" name="notes'.$notes->id.'" /> ';
     $row->cells[] = $cell;
 
