@@ -27,6 +27,7 @@ $arraydata = get_object_vars($postdata);
 $arraynotes = array();
 foreach($arraydata as $key=>$selected) {
     if (preg_match('/notes/', $key)) {
+
         // check notes-category relation already exist
         $sql = "SELECT snr.notesid, snc.categoryname, snc.createby, snr.id as relationid, snc.id as fromid
                 FROM {local_studynotes_category} snc, {local_studynotes_relation} snr
@@ -49,13 +50,23 @@ foreach($arraydata as $key=>$selected) {
                 $updaterelation->fromid = $result->fromid;
                 $updaterelation->toid = $categoryid;
 
-                // update database
-                $DB->update_record('local_studynotes_relation', $updaterelation);
+                // if user select category 'uncategory'
+                if ($categoryid == 0) {
+                    // delete record
+                    $DB->delete_records('local_studynotes_relation', array('id'=>$updaterelation->id));
+                } else {
+
+                    // update database
+                    $DB->update_record('local_studynotes_relation', $updaterelation);
+                }
 
                 // log user action
                 add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/linkup.php', get_string('log:updaterelation', 'local_studynotes', $updaterelation), '', $USER->id);
+
             } // end if original relation match with requested categoryid
-        } else {
+        } else if ($categoryid != 0) {
+
+            // don't create any record for category 'uncategory'
 
             // no existing record, insert a new record
             $newrelation = new stdClass();
@@ -67,6 +78,7 @@ foreach($arraydata as $key=>$selected) {
 
             // log user action
             add_to_log($SITE->id, 'studynotes', get_string('notes:header','local_studynotes'), '../local/studynotes/linkup.php', get_string('log:newrelation', 'local_studynotes', $newrelation), '', $USER->id);
+
         }
     }
 } // end foreach notes array

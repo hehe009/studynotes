@@ -41,6 +41,7 @@ $string['category:delete'] = 'Delete study notes categories';
 $string['category:delete:categoryname'] = 'Study notes category:';
 $string['category:delete:confirm'] = 'Are you sure to delete these study notes categories?';
 $string['category:delete:nonotes'] = 'Please select a categories to delete';
+$string['category:name:uncategory'] = 'No category';
 
 $string['button:addnotes'] = 'Add a new notes';
 $string['button:delnotes'] = 'Delete selected notes';

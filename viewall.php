@@ -115,6 +115,7 @@ if ($allmynotes) {
 }
 if ($categories = $DB->get_records('local_studynotes_category', array('createby'=>$USER->id))) {
     $displaylist = array();
+    $displaylist['0'] = get_string('category:name:uncategory', 'local_studynotes');
 
     foreach ($categories as $category) {
         $displaylist[$category->id] = $category->categoryname;
