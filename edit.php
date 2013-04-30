@@ -86,7 +86,7 @@ if ($id > 0) {
 
 
 if ($formdata = $editform->get_data()) {
-    //print_object($formdata);die();
+
     $notes = new stdClass();
 
     $notes->modified = time();
