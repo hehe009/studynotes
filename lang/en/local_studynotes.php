@@ -48,7 +48,6 @@ $string['button:delnotes'] = 'Delete selected notes';
 $string['button:edit'] = 'Edit';
 $string['button:addcategory'] = 'Add a category';
 $string['button:delcategory'] = 'Delete selected categories';
-$string['button:managecategory'] = 'Manage notes';
 
 $string['log:sharewith'] = 'share notes id: {$a->notesid} with user id: {$a->userid}';
 $string['log:viewnotes'] = 'view notes id: {$a}';
