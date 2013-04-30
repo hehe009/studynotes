@@ -26,6 +26,8 @@ $PAGE->set_heading($PAGE->title);
 echo $OUTPUT->header();
 echo $OUTPUT->heading($PAGE->title);
 
+$categories = $DB->get_records('local_studynotes_category', array('createby'=>$USER->id));
+
 // form for handle button in this page
 echo '<form action="action_redir.php" method="post" id="studynotesform">';
 
@@ -35,13 +37,14 @@ $controlstable->attributes['class'] = 'controls';
 $controlstable->cellspacing = 0;
 $controlstable->data[] = new html_table_row();
 $controlstable->data[0]->cells[] = '<input type="submit" name="buttoneditcategory" value="'.get_string('button:addcategory', 'local_studynotes').'">';
-$controlstable->data[0]->cells[] = '<input type="submit" name="buttondeletecategory" value="'.get_string('button:delcategory', 'local_studynotes').'">';
-$controlstable->data[0]->cells[] = '<input type="submit" name="buttonmanage" value="'.get_string('button:managecategory', 'local_studynotes').'">';
+if ($categories) {
+    $controlstable->data[0]->cells[] = '<input type="submit" name="buttondeletecategory" value="'.get_string('button:delcategory', 'local_studynotes').'">';
+}
 
 // display control table
 echo html_writer::table($controlstable);
 
-if ($categories = $DB->get_records('local_studynotes_category', array('createby'=>$USER->id))) {
+if ($categories) {
     // prepare category table
     // define header
     $table = new html_table();
