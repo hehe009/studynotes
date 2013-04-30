@@ -45,7 +45,7 @@ if ($categories = $DB->get_records('local_studynotes_category', array('createby'
     // prepare category table
     // define header
     $table = new html_table();
-    $table->width = "95%";
+    $table->attributes['class'] = 'generaltable boxaligncenter';
     $table->cellspacing = 0;
     $table->head = array ();
     $table->align = array();
@@ -59,12 +59,12 @@ if ($categories = $DB->get_records('local_studynotes_category', array('createby'
     $row = new html_table_row();
 
     $cell = new html_table_cell();
-    $cell->style = 'text-align:center';
+    $cell->style = 'text-align:center;';
     $cell->text = '<input type="checkbox" class="usercheckbox" name="notescategory'.$cat->id.'" /> ';
     $row->cells[] = $cell;
 
     $cell = new html_table_cell();
-    $cell->style = 'text-align:center';
+    $cell->style = 'text-align:center;';
     $cell->text = '<a href="editcategory.php?id='.$cat->id.'">'.$cat->categoryname.'</a><br>';
     $row->cells[] = $cell;
 
