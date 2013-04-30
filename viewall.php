@@ -28,7 +28,7 @@ echo $OUTPUT->heading($PAGE->title);
 
 // get all notes created by and share with this user
 $sql = "SELECT notes.id, notes.subject, notes.owner, notes.userid, notes.firstname, notes.lastname, notes.modified,
-        relation.categoryname
+        relation.categoryname, relation.categoryid
         FROM
         (SELECT sn.id as id, sn.subject, sn.owner, sns.userid, u.firstname, u.lastname, sn.modified
             FROM mdl_local_studynotes sn
@@ -36,11 +36,12 @@ $sql = "SELECT notes.id, notes.subject, notes.owner, notes.userid, notes.firstna
             left join mdl_user u on sn.owner = u.id
             WHERE sn.owner = :userid or sns.userid = :sharewith) notes
        LEFT OUTER join
-       (SELECT snc.categoryname, snc.createby, snr.notesid
+       (SELECT snc.categoryname, snc.id as categoryid, snc.createby, snr.notesid
            FROM mdl_local_studynotes_category snc, mdl_local_studynotes_relation snr
            where snr.categoryid = snc.id) relation
        ON notes.id = relation.notesid
-       ORDER by relation.categoryname";
+       GROUP by notes.id
+       ORDER by relation.categoryname DESC, notes.subject ASC";
 
 $params['userid'] = $USER->id;
 $params['sharewith'] = $USER->id;
@@ -79,8 +80,44 @@ if ($allmynotes) {
     $table->head[] = get_string('notes:lastmodified', 'local_studynotes');
     $table->align[] = 'center';
 
-    // table content
+    $arraycategoryandnotes = array();
+
+
+    // prepare a data array for display note and category in table
     foreach ($allmynotes as $notes) {
+
+        if ($notes->categoryid == null) {
+            $notes->categoryid = 0;
+        }
+
+        if (!empty($arraycategoryandnotes[$notes->categoryid])) {
+            $arraytemp = $arraycategoryandnotes[$notes->categoryid];
+            array_push($arraytemp, $notes);
+            $arraycategoryandnotes[$notes->categoryid] = $arraytemp;
+        } else {
+            $arraycategoryandnotes[$notes->categoryid] = array($notes);
+        }
+    }
+
+    // table content
+    foreach ($arraycategoryandnotes as $category=>$allnotes) {
+        $row = new html_table_row();
+        $cell = new html_table_cell();
+
+         // add row to table
+        $table->data[] = $row;
+        $cell->style = 'text-align:center';
+        $cell->colspan = 4;
+        if ($category != 0 ) {
+            $cell->text = $allnotes[0]->categoryname;
+        } else {
+            $cell->text = '<b>'.get_string('category:name:uncategory', 'local_studynotes').'</b>';
+        }
+        $row->cells[] = $cell;
+
+
+        foreach($allnotes as $notes) {
+
         $row = new html_table_row();
 
         $cell = new html_table_cell();
@@ -105,7 +142,9 @@ if ($allmynotes) {
 
         // add row to table
         $table->data[] = $row;
+        }
     }
+
     echo html_writer::table($table);
 
     echo '<input type="button" id="checkall" value="'.get_string('selectall').'" /> ';
