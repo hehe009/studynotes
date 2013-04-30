@@ -34,17 +34,20 @@ $sql = "SELECT notes.id, notes.subject, notes.owner, notes.userid, notes.firstna
             FROM mdl_local_studynotes sn
             left join mdl_local_studynotes_share sns on sns.notesid = sn.id
             left join mdl_user u on sn.owner = u.id
-            WHERE sn.owner = :userid or sns.userid = :sharewith) notes
+            WHERE sn.owner = :userid
+            OR sns.userid = :sharewith) notes
        LEFT OUTER join
        (SELECT snc.categoryname, snc.id as categoryid, snc.createby, snr.notesid
            FROM mdl_local_studynotes_category snc, mdl_local_studynotes_relation snr
-           where snr.categoryid = snc.id) relation
+           where snr.categoryid = snc.id
+            AND snc.createby = :cateogrycreator) relation
        ON notes.id = relation.notesid
        GROUP by notes.id
        ORDER by relation.categoryname DESC, notes.subject ASC";
 
 $params['userid'] = $USER->id;
 $params['sharewith'] = $USER->id;
+$params['cateogrycreator'] = $USER->id;
 $allmynotes = $DB->get_records_sql($sql, $params);
 
 // For delete
