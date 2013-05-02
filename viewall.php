@@ -152,10 +152,8 @@ if ($allmynotes) {
 
     echo '<input type="button" id="checkall" value="'.get_string('selectall').'" /> ';
     echo '<input type="button" id="checknone" value="'.get_string('deselectall').'" /> ';
-} else {
-    echo get_string('notes:nolist', 'local_studynotes');
-}
-if ($categories = $DB->get_records('local_studynotes_category', array('createby'=>$USER->id))) {
+
+    if ($categories = $DB->get_records('local_studynotes_category', array('createby'=>$USER->id))) {
     $displaylist = array();
     $displaylist['0'] = get_string('category:name:uncategory', 'local_studynotes');
 
@@ -167,6 +165,10 @@ if ($categories = $DB->get_records('local_studynotes_category', array('createby'
     echo html_writer::tag('label', get_string('notes:category:moveto', 'local_studynotes'), array('for'=>'formactionid'));
     echo html_writer::select($displaylist, 'categoryid', '', array(''=>'choosedots'), array('id'=>'formactionid'));
 }
+} else {
+    echo get_string('notes:nolist', 'local_studynotes');
+}
+
 
 // for delete
 echo '<noscript style="display:inline">';
